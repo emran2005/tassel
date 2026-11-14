@@ -24,6 +24,8 @@ function launchSpec() {
 
 // Folders where Claude Desktop keeps claude_desktop_config.json on this computer.
 function claudeDesktopDirs() {
+  // The automated walkthrough points this at a stand-in folder so it never touches real settings.
+  if (process.env.TASSEL_CLAUDE_DIR) return [process.env.TASSEL_CLAUDE_DIR].filter((d) => fs.existsSync(d));
   const dirs = [];
   const home = os.homedir();
   if (process.platform === 'win32') {

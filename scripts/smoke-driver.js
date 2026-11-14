@@ -709,8 +709,13 @@ module.exports = function smoke(win) {
     const fakeCfg = path.join(fakeRoot, 'Roaming', 'Claude', 'claude_desktop_config.json');
     fs.writeFileSync(fakeCfg, JSON.stringify({ theme: 'dark', mcpServers: { other: { command: 'x' } } }));
     const realEnv = { APPDATA: process.env.APPDATA, LOCALAPPDATA: process.env.LOCALAPPDATA };
-    process.env.APPDATA = path.join(fakeRoot, 'Roaming');
-    process.env.LOCALAPPDATA = path.join(fakeRoot, 'Local');
+    if (process.platform === 'win32') {
+      // On Windows, go through the real folder lookup (including the Store-install path).
+      process.env.APPDATA = path.join(fakeRoot, 'Roaming');
+      process.env.LOCALAPPDATA = path.join(fakeRoot, 'Local');
+    } else {
+      process.env.TASSEL_CLAUDE_DIR = path.join(fakeRoot, 'Roaming', 'Claude');
+    }
     try {
       connect.installClaudeDesktop();
       const cfg = JSON.parse(fs.readFileSync(fakeCfg, 'utf8'));
@@ -723,8 +728,11 @@ module.exports = function smoke(win) {
       const cfg2 = JSON.parse(fs.readFileSync(fakeCfg, 'utf8'));
       check('Remove from Claude Desktop: takes only Tassel out', !cfg2.mcpServers.tassel && cfg2.mcpServers.other.command === 'x');
     } finally {
-      process.env.APPDATA = realEnv.APPDATA;
-      process.env.LOCALAPPDATA = realEnv.LOCALAPPDATA;
+      delete process.env.TASSEL_CLAUDE_DIR;
+      if (process.platform === 'win32') {
+        process.env.APPDATA = realEnv.APPDATA;
+        process.env.LOCALAPPDATA = realEnv.LOCALAPPDATA;
+      }
     }
     child.kill();
     check('no console errors', results.errors.length === 0, results.errors);
