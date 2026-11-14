@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src 'self'">
+  <title>Tassel</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="booting">
+
+  <!-- Opening -->
+  <div id="splash" role="presentation">
+    <div class="splash-inner">
+      <svg class="splash-mark" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path class="s-cap" pathLength="1" d="M19 31.5V42c0 0 5 5.5 13 5.5S45 42 45 42V31.5"/>
+        <path class="s-board" pathLength="1" d="M32 11 58 24 32 37 6 24Z"/>
+        <path class="s-cord" pathLength="1" d="M32 24l19 5.5V41"/>
+        <path class="s-tip" d="M51 41v9"/>
+      </svg>
+      <div class="splash-word">Tassel</div>
+      <div class="splash-tag">Apply once. Everywhere.</div>
+    </div>
+  </div>
+
+  <!-- Title bar with tabs, like a browser -->
+  <header id="topbar">
+    <button class="tab home active" id="homeTab" data-act="tab" data-id="home" title="Home (Ctrl+1)">
+      <svg class="mark" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path d="M19 31.5V42c0 0 5 5.5 13 5.5S45 42 45 42V31.5" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M32 11 58 24 32 37 6 24Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M32 24l19 5.5V41" stroke="#C8962B" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M51 41v9" stroke="#C8962B" stroke-width="7.5" stroke-linecap="round"/>
+      </svg>
+      <span class="wordmark">Tassel</span>
+    </button>
+    <div id="tabs" role="tablist"></div>
+    <div class="drag"></div>
+  </header>
+
+  <!-- Home: programs, profile, essays, settings -->
+  <div id="home" class="pane">
+    <nav id="side" aria-label="Sections"></nav>
+    <main id="view" tabindex="-1"></main>
+  </div>
+
+  <!-- Browser: one application per tab, Tassel alongside -->
+  <div id="browser" class="pane off">
+    <div id="toolbar">
+      <button class="icon-btn" data-act="nav-back" id="navBack" title="Back" aria-label="Back"></button>
+      <button class="icon-btn" data-act="nav-forward" id="navForward" title="Forward" aria-label="Forward"></button>
+      <button class="icon-btn" data-act="nav-reload" id="navReload" title="Reload" aria-label="Reload"></button>
+      <form id="urlForm" autocomplete="off">
+        <span id="urlLock" aria-hidden="true"></span>
+        <input id="urlInput" type="text" spellcheck="false" aria-label="Address" placeholder="Paste the application link">
+      </form>
+      <span class="pill" id="deadlineChip" hidden></span>
+      <label class="switch" title="Autopilot fills each page as it opens and moves on when nothing needs you. It never submits, pays or signs.">
+        <input type="checkbox" id="autopilot">
+        <span class="track"><span class="thumb"></span></span>
+        <span class="switch-label">Autopilot</span>
+      </label>
+      <button class="btn primary" data-act="fill" id="fillBtn" title="Fill this page (Ctrl+Enter)">
+        <span class="btn-ico" id="fillIco"></span><span id="fillLabel">Fill this page</span>
+      </button>
+      <button class="icon-btn" data-act="toggle-agent" id="agentToggle" title="Show or hide Tassel" aria-label="Show or hide Tassel"></button>
+    </div>
+    <div id="stage">
+      <div id="webviews"></div>
+      <aside id="agent" aria-label="Tassel assistant"></aside>
+    </div>
+  </div>
+
+  <div id="onboard" hidden></div>
+  <div id="modal" hidden></div>
+  <div id="toasts" aria-live="polite"></div>
+
+  <script src="data.js"></script>
+  <script src="universities.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

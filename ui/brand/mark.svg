@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Tassel mark: a mortarboard seen from the front, with a gold tassel. -->
+  <path d="M19 31.5V42c0 0 5 5.5 13 5.5S45 42 45 42V31.5" stroke="#17201C" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 11 58 24 32 37 6 24Z" fill="#17201C" stroke="#17201C" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M32 24l19 5.5V41" stroke="#C8962B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M51 41v9" stroke="#C8962B" stroke-width="7" stroke-linecap="round"/>
+</svg>

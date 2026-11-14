@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tassel - Apply once. Everywhere.</title>
+<meta name="description" content="Tassel fills in your master's and PhD applications for you. Type your details once, pick your programs, and let every form fill itself. You review and submit.">
+<meta property="og:title" content="Tassel - Apply once. Everywhere.">
+<meta property="og:description" content="Type your details once. Tassel fills in every graduate application. You review and submit.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317201C'/%3E%3Cg transform='translate(8 8) scale(.75)' fill='none'%3E%3Cpath d='M19 31.5V42c0 0 5 5.5 13 5.5S45 42 45 42V31.5' stroke='%23F6F3EC' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M32 11 58 24 32 37 6 24Z' fill='%23F6F3EC'/%3E%3Cpath d='M32 24l19 5.5V41' stroke='%23C8962B' stroke-width='3.4' stroke-linecap='round'/%3E%3Cpath d='M51 41v9' stroke='%23C8962B' stroke-width='7.5' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+  :root {
+    --ink: #17201c; --ink-2: #2a3530; --deep: #0f1613; --paper: #f6f3ec; --bar: #ece8dd; --card: #fff;
+    --line: #e2ddd0; --muted: #5f6a61; --faint: #8d948b; --green: #1e6b52; --green-ink: #14503c; --green-wash: #e3efe8;
+    --gold: #c8962b; --gold-2: #e2b34a; --gold-wash: #f7ecd2; --gold-ink: #8a6412; --blue-wash: #e6ecf3; --blue-ink: #34506e;
+    --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI Variable Text", "Segoe UI", Roboto, sans-serif;
+    --r: 20px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: var(--sans); font-size: 17px; line-height: 1.55; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.015em; margin: 0; }
+  p { margin: 0; }
+  .wrap { width: min(1160px, 100% - 48px); margin: 0 auto; }
+  svg { display: block; }
+
+  /* ---------- Nav ---------- */
+  .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; transition: background 0.25s, box-shadow 0.25s; }
+  .nav.stuck { background: rgba(15, 22, 19, 0.82); backdrop-filter: blur(14px); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.07); }
+  .nav .wrap { display: flex; align-items: center; gap: 30px; height: 68px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--paper); font-family: var(--serif); font-size: 25px; }
+  .brand svg { width: 32px; height: 32px; }
+  .nav .links { margin-left: auto; display: flex; align-items: center; gap: 28px; }
+  .nav .links a { color: #b8c4bb; text-decoration: none; font-size: 15px; transition: color 0.15s; }
+  .nav .links a:hover { color: #fff; }
+  .nav .get { height: 40px; padding: 0 18px; border-radius: 30px; background: var(--paper); color: var(--ink) !important; font-weight: 650; display: inline-flex; align-items: center; }
+  .nav .get:hover { background: #fff; }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; color: var(--paper); background: var(--deep); padding: 150px 0 0; overflow: hidden; isolation: isolate; }
+  .hero::before { content: ""; position: absolute; inset: 0; z-index: -2; background:
+      radial-gradient(900px 520px at 12% 8%, rgba(46, 122, 96, 0.55), transparent 62%),
+      radial-gradient(700px 480px at 92% 30%, rgba(200, 150, 43, 0.2), transparent 60%),
+      radial-gradient(900px 600px at 50% 110%, rgba(30, 107, 82, 0.5), transparent 60%); }
+  .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0.5;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px); background-size: 26px 26px;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 78%); mask-image: linear-gradient(180deg, #000 0%, transparent 78%); }
+  .hero-grid { display: grid; grid-template-columns: 1fr; text-align: center; justify-items: center; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 9px; padding: 6px 15px 6px 8px; border-radius: 30px; background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.13); color: #d5ddd6; font-size: 13.5px; }
+  .eyebrow i { width: 22px; height: 22px; border-radius: 50%; background: var(--gold); display: grid; place-items: center; }
+  .eyebrow i svg { width: 12px; height: 12px; }
+  h1 { font-size: clamp(52px, 9.4vw, 124px); line-height: 0.94; margin-top: 26px; letter-spacing: -0.03em; }
+  h1 em { font-style: italic; background: linear-gradient(100deg, var(--gold-2), #f3d68a 45%, var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: 0.06em; }
+  .lead { max-width: 640px; margin-top: 28px; font-size: clamp(17px, 2vw, 21px); color: #c3cdc5; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 36px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 11px; height: 56px; padding: 0 26px; border-radius: 16px; font: 650 16.5px var(--sans); text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: transform 0.15s, box-shadow 0.2s, background 0.2s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn svg { width: 20px; height: 20px; }
+  .btn.gold { background: linear-gradient(180deg, var(--gold-2), var(--gold)); color: #1a1408; box-shadow: 0 14px 34px -12px rgba(200, 150, 43, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.45); }
+  .btn.glass { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); color: var(--paper); }
+  .btn.glass:hover { background: rgba(255, 255, 255, 0.14); }
+  .btn.dark { background: var(--ink); color: var(--paper); }
+  .btn.dark:hover { box-shadow: 0 14px 30px -14px rgba(23, 32, 28, 0.7); }
+  .btn.plain { background: #fff; border-color: var(--line); color: var(--ink); }
+  .fine { margin-top: 18px; font-size: 14px; color: #8fa097; display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; }
+  .fine span { display: inline-flex; align-items: center; gap: 7px; }
+  .fine span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+
+  /* ---------- The live demo (pure HTML, no images) ---------- */
+  .stage { position: relative; margin: 64px auto 0; width: min(1080px, 100%); perspective: 1800px; }
+  .glow { position: absolute; inset: 12% 6% -6%; background: radial-gradient(closest-side, rgba(200, 150, 43, 0.35), transparent); filter: blur(50px); z-index: -1; }
+  .app { text-align: left; color: var(--ink); background: var(--paper); border-radius: 16px 16px 0 0; border: 1px solid rgba(255, 255, 255, 0.18); border-bottom: 0; box-shadow: 0 50px 120px -30px rgba(0, 0, 0, 0.75); overflow: hidden; transform: rotateX(7deg); transform-origin: 50% 100%; font-size: 13px; }
+  .app-top { display: flex; align-items: flex-end; gap: 3px; height: 42px; padding: 0 12px; background: var(--bar); border-bottom: 1px solid var(--line); }
+  .app-tab { display: inline-flex; align-items: center; gap: 7px; height: 33px; padding: 0 13px; border-radius: 9px 9px 0 0; color: var(--muted); border: 1px solid transparent; border-bottom: 0; position: relative; top: 1px; white-space: nowrap; transition: background 0.25s, color 0.25s; }
+  .app-tab.on { background: var(--paper); color: var(--ink); border-color: var(--line); }
+  .app-tab i { width: 17px; height: 17px; border-radius: 5px; background: var(--c); color: #fff; font: 700 10px var(--sans); display: grid; place-items: center; font-style: normal; }
+  .app-tab.home { font-family: var(--serif); font-size: 16px; color: var(--ink); gap: 6px; }
+  .app-tab.home svg { width: 19px; height: 19px; }
+  .app-tab .tick { width: 13px; height: 13px; color: var(--green); opacity: 0; transition: opacity 0.3s; }
+  .app-tab.done .tick { opacity: 1; }
+  .app-bar { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+  .url { flex: 1; min-width: 0; height: 30px; border-radius: 20px; background: var(--bar); padding: 0 14px; display: flex; align-items: center; color: var(--muted); white-space: nowrap; overflow: hidden; }
+  .url b { color: var(--ink); font-weight: 600; }
+  .chip { height: 26px; padding: 0 11px; border-radius: 20px; background: var(--gold-wash); color: var(--gold-ink); font-weight: 650; font-size: 12px; display: inline-flex; align-items: center; white-space: nowrap; }
+  .fillbtn { height: 32px; padding: 0 14px; border-radius: 9px; background: var(--green); color: #fff; font-weight: 650; display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; position: relative; }
+  .fillbtn svg { width: 14px; height: 14px; }
+  .fillbtn.press { animation: press 0.5s ease; }
+  @keyframes press { 30% { transform: scale(0.94); box-shadow: 0 0 0 8px rgba(30, 107, 82, 0.18); } }
+  .app-body { display: grid; grid-template-columns: 1fr 290px; min-height: 392px; }
+  .form { padding: 22px 26px 26px; background: #fff; border-right: 1px solid var(--line); }
+  .form-head { font-family: var(--serif); font-size: 21px; display: flex; align-items: center; gap: 11px; padding-bottom: 14px; margin-bottom: 16px; border-bottom: 1px solid var(--line); }
+  .form-head i { width: 30px; height: 30px; border-radius: 8px; background: var(--c, #8a6412); color: #fff; font: 600 15px var(--serif); display: grid; place-items: center; font-style: normal; transition: background 0.3s; }
+  .form-head small { margin-left: auto; font: 12px var(--sans); color: var(--faint); }
+  .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; margin-bottom: 12px; }
+  .frow label { font-weight: 650; font-size: 11.5px; color: var(--ink-2); display: block; }
+  .frow label.wide { grid-column: 1 / -1; }
+  .inp { display: flex; align-items: center; height: 34px; margin-top: 5px; padding: 0 10px; border: 1px solid #cfd3da; border-radius: 6px; font-weight: 400; font-size: 13px; color: var(--ink); background: #fff; white-space: nowrap; overflow: hidden; transition: border-color 0.3s, background 0.6s, box-shadow 0.6s; }
+  .inp::after { content: attr(data-v); }
+  .js .inp::after { content: none; }
+  .inp.typing { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(200, 150, 43, 0.28); background: #fffaf0; }
+  .inp.typing::before { content: ""; order: 2; width: 1.5px; height: 15px; background: var(--ink); margin-left: 1px; animation: blink 0.7s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .inp.filled { border-color: #d9c590; background: #fffcf4; }
+  .panel { background: var(--paper); padding: 16px 14px; display: flex; flex-direction: column; gap: 10px; }
+  .p-head { display: flex; align-items: center; gap: 8px; font-family: var(--serif); font-size: 17px; }
+  .p-head svg { width: 22px; height: 22px; }
+  .p-label { font: 700 10.5px var(--sans); letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+  .p-log { border-radius: 10px; padding: 10px 12px; background: var(--green-wash); color: var(--green-ink); font-weight: 650; display: flex; align-items: center; gap: 8px; }
+  .p-log svg { width: 15px; height: 15px; }
+  .p-need { border: 1px solid #e6d4a3; box-shadow: 0 0 0 3px rgba(200, 150, 43, 0.1); border-radius: 10px; padding: 11px 12px; background: #fff; transition: opacity 0.4s, transform 0.4s; }
+  .p-need b { display: block; font-weight: 650; margin-bottom: 8px; }
+  .p-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .p-chips span { height: 27px; padding: 0 11px; border-radius: 20px; border: 1px solid #d3cdbd; display: inline-flex; align-items: center; font-weight: 600; font-size: 12px; transition: all 0.25s; }
+  .p-chips span.picked { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .js .p-need.wait { opacity: 0; transform: translateY(8px); }
+  .p-next { margin-top: auto; height: 36px; border-radius: 9px; background: var(--ink); color: var(--paper); font-weight: 650; display: grid; place-items: center; transition: box-shadow 0.3s; }
+  .p-next.pulse { box-shadow: 0 0 0 5px rgba(23, 32, 28, 0.16); }
+  .p-rule { font-size: 11.5px; color: var(--faint); text-align: center; }
+
+  /* ---------- Sections ---------- */
+  section { padding: 110px 0; position: relative; }
+  .kicker { display: inline-flex; align-items: center; gap: 10px; color: var(--green); font-weight: 700; font-size: 12.5px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .kicker::before { content: ""; width: 26px; height: 2px; background: var(--gold); }
+  h2 { font-size: clamp(34px, 5.2vw, 62px); line-height: 1.02; margin-top: 16px; letter-spacing: -0.025em; }
+  h2 em { font-style: italic; color: var(--green); }
+  .sub { color: var(--muted); max-width: 620px; margin-top: 18px; font-size: 18.5px; }
+  .center { text-align: center; }
+  .center .sub { margin-inline: auto; }
+  .center .kicker::after { content: ""; width: 26px; height: 2px; background: var(--gold); }
+
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); transition-delay: var(--d, 0s); }
+  .reveal.in, .no-js .reveal { opacity: 1; transform: none; }
+
+  /* Numbers strip */
+  .numbers { background: var(--paper); padding: 70px 0 10px; }
+  .numbers .wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .num { padding: 30px 26px; border-left: 1px solid var(--line); }
+  .num:first-child { border-left: 0; padding-left: 0; }
+  .num b { display: block; font-family: var(--serif); font-weight: 500; font-size: clamp(44px, 5.4vw, 68px); line-height: 1; letter-spacing: -0.03em; }
+  .num b i { font-style: normal; color: var(--gold); }
+  .num span { display: block; color: var(--muted); margin-top: 10px; font-size: 15.5px; max-width: 200px; }
+
+  /* Steps */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 60px; counter-reset: s; }
+  .step { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 30px 28px 32px; overflow: hidden; transition: transform 0.25s, box-shadow 0.25s; }
+  .step:hover { transform: translateY(-5px); box-shadow: 0 30px 60px -34px rgba(23, 32, 28, 0.4); }
+  .step::before { counter-increment: s; content: "0" counter(s); position: absolute; right: 18px; top: 2px; font: 500 96px/1 var(--serif); color: var(--bar); letter-spacing: -0.04em; }
+  .step .ico { position: relative; width: 50px; height: 50px; border-radius: 14px; background: var(--ink); color: var(--gold-2); display: grid; place-items: center; }
+  .step .ico svg { width: 24px; height: 24px; }
+  .step h3 { position: relative; font-size: 25px; margin-top: 24px; }
+  .step p { position: relative; color: var(--muted); margin-top: 10px; font-size: 16.5px; }
+
+  /* Bento */
+  .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; margin-top: 56px; }
+  .tile { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 28px; overflow: hidden; position: relative; display: flex; flex-direction: column; transition: transform 0.25s, box-shadow 0.25s; }
+  .tile:hover { transform: translateY(-4px); box-shadow: 0 30px 60px -36px rgba(23, 32, 28, 0.42); }
+  .tile.w3 { grid-column: span 3; } .tile.w2 { grid-column: span 2; } .tile.w4 { grid-column: span 4; }
+  .tile.inked { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .tile.inked p { color: #aebab1; }
+  .tile.goldy { background: linear-gradient(160deg, #fbf1d8, #f3e2b4); border-color: #ecd9a4; }
+  .tile h3 { font-size: 26px; line-height: 1.12; }
+  .tile p { color: var(--muted); margin-top: 10px; font-size: 16px; }
+  .viz { margin-top: auto; padding-top: 26px; }
+
+  /* reach / target / safer bars */
+  .tiers { display: grid; gap: 10px; }
+  .tier { display: grid; grid-template-columns: 62px 1fr 26px; align-items: center; gap: 12px; font-size: 13px; font-weight: 650; }
+  .tier .bar { height: 30px; border-radius: 9px; background: var(--bar); overflow: hidden; }
+  .tier .bar i { display: block; height: 100%; width: 0; border-radius: 9px; transition: width 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s; }
+  .in .tier .bar i, .no-js .tier .bar i { width: var(--w); }
+  .tier.r .bar i { background: linear-gradient(90deg, #e9c66a, var(--gold)); } .tier.r { color: var(--gold-ink); }
+  .tier.t .bar i { background: linear-gradient(90deg, #8fa9c9, #4d6f96); } .tier.t { color: var(--blue-ink); }
+  .tier.s .bar i { background: linear-gradient(90deg, #6fb096, var(--green)); } .tier.s { color: var(--green-ink); }
+
+  /* start all */
+  .queue { display: grid; gap: 9px; }
+  .q { display: grid; grid-template-columns: 26px 1fr auto; gap: 11px; align-items: center; padding: 10px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); font-size: 14px; }
+  .q i { width: 26px; height: 26px; border-radius: 7px; background: var(--c); display: grid; place-items: center; font: 700 12px var(--sans); font-style: normal; color: #fff; }
+  .q .track { grid-column: 2 / 4; height: 5px; border-radius: 5px; background: rgba(255, 255, 255, 0.12); overflow: hidden; }
+  .q .track b { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--gold), var(--gold-2)); border-radius: 5px; transition: width 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) var(--dl, 0.2s); }
+  .in .q .track b, .no-js .q .track b { width: var(--w); }
+  .q span { font-size: 12px; color: #c9d3cc; padding: 2px 9px; border-radius: 20px; background: rgba(255, 255, 255, 0.09); white-space: nowrap; }
+  .q span.ok { background: rgba(110, 190, 150, 0.2); color: #9fdcc0; }
+
+  /* deadlines */
+  .dates { display: grid; gap: 8px; }
+  .date { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(138, 100, 18, 0.16); font-size: 14px; }
+  .date b { font-family: var(--serif); font-weight: 500; font-size: 22px; min-width: 44px; line-height: 1; }
+  .date small { display: block; font-size: 11px; color: var(--gold-ink); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700; }
+  .date span { margin-left: auto; font-weight: 650; font-size: 12.5px; color: var(--gold-ink); }
+
+  /* letters */
+  .lets { display: grid; gap: 9px; }
+  .let { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+  .let b { flex: 1; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; font-size: 11.5px; font-weight: 650; flex: none; }
+  .seg span { padding: 5px 9px; color: var(--faint); border-left: 1px solid var(--line); }
+  .seg span:first-child { border-left: 0; }
+  .seg .a { background: var(--gold); color: #fff; } .seg .s { background: var(--green); color: #fff; }
+
+  /* essays */
+  .drafts { position: relative; height: 150px; }
+  .draft { position: absolute; left: 0; right: 0; margin: auto; width: 78%; padding: 14px 16px; border-radius: 13px; background: #fff; border: 1px solid var(--line); box-shadow: 0 14px 30px -18px rgba(23, 32, 28, 0.5); transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .draft b { font-size: 13.5px; }
+  .draft i { display: block; height: 6px; border-radius: 6px; background: var(--bar); margin-top: 8px; }
+  .draft i:nth-child(3) { width: 86%; } .draft i:nth-child(4) { width: 64%; }
+  .draft:nth-child(1) { top: 0; transform: rotate(-5deg) translateX(-12%); }
+  .draft:nth-child(2) { top: 18px; transform: rotate(3deg) translateX(12%); }
+  .draft:nth-child(3) { top: 40px; z-index: 2; border-color: var(--green); box-shadow: 0 0 0 4px rgba(30, 107, 82, 0.12), 0 18px 34px -18px rgba(23, 32, 28, 0.55); }
+  .draft:nth-child(3) b::after { content: "Picked"; float: right; font-size: 11px; background: var(--green-wash); color: var(--green-ink); padding: 1px 8px; border-radius: 20px; }
+  .tile:hover .draft:nth-child(1) { transform: rotate(-9deg) translateX(-20%); }
+  .tile:hover .draft:nth-child(2) { transform: rotate(7deg) translateX(20%); }
+
+  /* own AI */
+  .chat { display: grid; gap: 9px; }
+  .bub { max-width: 88%; padding: 10px 14px; border-radius: 16px; font-size: 14.5px; line-height: 1.4; }
+  .bub.me { justify-self: end; background: var(--ink); color: var(--paper); border-bottom-right-radius: 5px; }
+  .bub.ai { background: var(--bar); border-bottom-left-radius: 5px; }
+  .bub.ai b { color: var(--green-ink); }
+
+  /* Never */
+  .never { background: var(--deep); color: var(--paper); overflow: hidden; isolation: isolate; }
+  .never::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(800px 460px at 85% 0%, rgba(46, 122, 96, 0.45), transparent 62%), radial-gradient(600px 400px at 0% 100%, rgba(200, 150, 43, 0.14), transparent 60%); }
+  .never h2 em { color: var(--gold-2); }
+  .never .kicker { color: var(--gold-2); }
+  .never .sub { color: #b3bfb6; }
+  .nevers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 60px; border-top: 1px solid rgba(255, 255, 255, 0.14); }
+  .nv { padding: 30px 26px 6px; border-left: 1px solid rgba(255, 255, 255, 0.14); }
+  .nv:first-child { border-left: 0; padding-left: 0; }
+  .nv svg { width: 30px; height: 30px; color: var(--gold-2); }
+  .nv b { display: block; font-family: var(--serif); font-weight: 500; font-size: 25px; line-height: 1.15; margin-top: 18px; }
+  .nv span { display: block; color: #a9b6ad; margin-top: 10px; font-size: 15.5px; }
+
+  /* Pricing */
+  .plans { display: grid; grid-template-columns: repeat(2, minmax(0, 420px)); justify-content: center; gap: 20px; margin-top: 54px; }
+  .plans.single { grid-template-columns: minmax(0, 520px); }
+  .plan { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 36px 34px; text-align: left; position: relative; }
+  .plan.best { background: var(--ink); color: var(--paper); border-color: var(--ink); box-shadow: 0 40px 80px -40px rgba(23, 32, 28, 0.7); }
+  .plan .tag { position: absolute; top: 22px; right: 22px; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; background: var(--gold); color: #1a1408; }
+  .plan h3 { font-size: 24px; }
+  .plan .amt { font: 500 72px/1 var(--serif); letter-spacing: -0.04em; margin-top: 16px; }
+  .plan .amt small { font: 500 16px var(--sans); letter-spacing: 0; color: var(--muted); margin-left: 6px; }
+  .plan.best .amt small { color: #a9b6ad; }
+  .plan ul { list-style: none; padding: 0; margin: 24px 0 28px; display: grid; gap: 11px; }
+  .plan li { padding-left: 30px; position: relative; font-size: 16px; }
+  .plan li::before { content: ""; position: absolute; left: 2px; top: 6px; width: 15px; height: 8px; border-left: 2.5px solid var(--green); border-bottom: 2.5px solid var(--green); transform: rotate(-45deg); }
+  .plan.best li::before { border-color: var(--gold-2); }
+  .plan .btn { width: 100%; }
+  .dl { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  [hidden] { display: none !important; }
+
+  /* FAQ */
+  .faq { max-width: 860px; margin: 50px auto 0; }
+  details { border-top: 1px solid var(--line); }
+  details:last-of-type { border-bottom: 1px solid var(--line); }
+  summary { cursor: pointer; font-family: var(--serif); font-size: 24px; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 24px 0; transition: color 0.15s; }
+  summary:hover { color: var(--green); }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: ""; width: 34px; height: 34px; flex: none; border-radius: 50%; border: 1px solid var(--line); background: center / 14px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M7 1v12M1 7h12' stroke='%231e6b52' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E"); transition: transform 0.25s, background-color 0.2s; }
+  details[open] summary::after { transform: rotate(45deg); background-color: var(--green-wash); }
+  details p { color: var(--muted); max-width: 760px; padding: 0 0 26px; margin-top: -6px; }
+
+  /* Final call */
+  .final { padding: 0 0 110px; }
+  .final .box { border-radius: 32px; padding: 80px 40px; text-align: center; color: var(--paper); background: var(--deep); position: relative; overflow: hidden; isolation: isolate; }
+  .final .box::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(700px 380px at 50% 0%, rgba(46, 122, 96, 0.7), transparent 65%), radial-gradient(500px 300px at 50% 120%, rgba(200, 150, 43, 0.3), transparent 60%); }
+  .final h2 { font-size: clamp(40px, 7vw, 88px); }
+  .final h2 em { color: var(--gold-2); }
+  .final p { color: #c3cdc5; max-width: 520px; margin: 18px auto 0; font-size: 19px; }
+
+  footer { padding: 34px 0 50px; color: var(--muted); font-size: 14.5px; }
+  footer .wrap { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  footer svg { width: 26px; height: 26px; color: var(--ink); }
+  footer .grow { flex: 1; }
+
+  @media (max-width: 960px) {
+    .nav .links a:not(.get) { display: none; }
+    .hero { padding-top: 120px; }
+    .app { transform: none; font-size: 12px; }
+    .app-body { grid-template-columns: 1fr; }
+    .panel { border-top: 1px solid var(--line); }
+    .app-tab b { display: none; }
+    .numbers .wrap { grid-template-columns: 1fr 1fr; }
+    .num { border-left: 0; padding-left: 0; }
+    .num:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .steps { grid-template-columns: 1fr; }
+    .tile.w3, .tile.w2, .tile.w4 { grid-column: span 6; }
+    .nevers { grid-template-columns: 1fr 1fr; }
+    .nv { border-left: 0; padding-left: 0; }
+    .plans { grid-template-columns: 1fr; }
+    section { padding: 78px 0; }
+  }
+  @media (max-width: 560px) {
+    .wrap { width: calc(100% - 36px); }
+    .btn { width: 100%; }
+    .frow { grid-template-columns: 1fr; }
+    .chip { display: none; }
+    .nevers { grid-template-columns: 1fr; }
+    .dl { grid-template-columns: 1fr; }
+    .final .box { padding: 56px 22px; border-radius: 24px; }
+    .tile { padding: 24px; }
+    .draft { width: 88%; }
+    .form-head small { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .btn:hover, .step:hover, .tile:hover { transform: none; }
+  }
+</style>
+</head>
+<body class="no-js">
+
+<!--
+  Set these when the site goes live:
+    REPO     - the GitHub repository that holds the releases, as "owner/name".
+               Download buttons then point at its latest Mac and Windows installers.
+    BUY_URL  - the checkout link for the Season Pass. While it is empty the page shows Tassel as free.
+-->
+<script>
+  window.TASSEL = { REPO: 'emran2005/tassel', BUY_URL: '' };
+  document.body.classList.remove('no-js');
+  document.documentElement.classList.add('js');
+</script>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 64 64" fill="none"><path d="M19 31.5V42c0 0 5 5.5 13 5.5S45 42 45 42V31.5" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 11 58 24 32 37 6 24Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M32 24l19 5.5V41" stroke="#C8962B" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M51 41v9" stroke="#C8962B" stroke-width="7.5" stroke-linecap="round"/></symbol>
+  <symbol id="apple" viewBox="0 0 24 24"><path fill="currentColor" d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.8-.4 6.9 1.1 9.1.8 1.1 1.7 2.3 2.8 2.3 1.1 0 1.6-.7 2.9-.7 1.4 0 1.7.7 2.9.7s2-1.1 2.800-2.200c.9-1.3 1.200-2.500 1.300-2.600-.100 0-2.400-.900-2.400-3.700zM14.200 5.700c.600-.800 1-1.800.900-2.900-.900 0-2 .600-2.700 1.400-.600.700-1.100 1.800-1 2.800 1.100.100 2.100-.500 2.800-1.300z"/></symbol>
+  <symbol id="win" viewBox="0 0 24 24"><path fill="currentColor" d="M3 5.300 10.500 4.300v7.200H3zM11.500 4.100 21 2.800v8.700h-9.500zM3 12.500h7.500v7.200L3 18.700zM11.500 12.500H21v8.700l-9.500-1.300z"/></symbol>
+  <symbol id="spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3l1.900 5.100L18 10l-5.100 1.900L11 17l-1.900-5.100L4 10l5.100-1.900z"/><path d="M18.500 15l.800 2.200 2.200.800-2.200.800-.800 2.200-.800-2.200-2.200-.800 2.200-.800z"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><svg><use href="#mark"/></svg>Tassel</a>
+    <div class="links">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#never">Your control</a>
+      <a href="#pricing">Pricing</a>
+      <a class="get" href="#pricing">Download</a>
+    </div>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="wrap hero-grid">
+    <span class="eyebrow"><i><svg viewBox="0 0 24 24" fill="none" stroke="#1a1408" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg></i>For master's and PhD applicants</span>
+    <h1>Apply once.<br><em>Everywhere.</em></h1>
+    <p class="lead">Tassel fills in your graduate applications for you. Type your details one time, choose your programs, and every form fills itself. You read it over and press submit.</p>
+    <div class="cta">
+      <a class="btn gold" href="#pricing" data-dl="mac"><svg><use href="#apple"/></svg>Download for Mac</a>
+      <a class="btn glass" href="#pricing" data-dl="win"><svg><use href="#win"/></svg>Download for Windows</a>
+    </div>
+    <div class="fine"><span>Free to start</span><span>No account needed</span><span>Your data stays on your computer</span></div>
+
+    <div class="stage" aria-hidden="true">
+      <div class="glow"></div>
+      <div class="app" id="demo">
+        <div class="app-top">
+          <span class="app-tab home"><svg><use href="#mark"/></svg>Tassel</span>
+          <span class="app-tab on" data-tab="0"><i style="--c:#8a6412">N</i><b>Northfield</b><svg class="tick"><use href="#check"/></svg></span>
+          <span class="app-tab" data-tab="1"><i style="--c:#1e6b52">H</i><b>Harrow</b><svg class="tick"><use href="#check"/></svg></span>
+          <span class="app-tab" data-tab="2"><i style="--c:#5b4b8a">E</i><b>Eastmoor</b><svg class="tick"><use href="#check"/></svg></span>
+        </div>
+        <div class="app-bar">
+          <span class="url">apply.<b id="dHost">northfield</b>.example/graduate</span>
+          <span class="chip" id="dDue">Due Dec 15 &middot; 31 days</span>
+          <span class="fillbtn" id="dFill"><svg><use href="#spark"/></svg>Fill this page</span>
+        </div>
+        <div class="app-body">
+          <div class="form">
+            <div class="form-head"><i id="dCrest">N</i><span id="dUni">Northfield University</span><small>Graduate application &middot; Step 1 of 4</small></div>
+            <div class="frow"><label>First name<span class="inp" data-v="Jordan"></span></label><label>Last name<span class="inp" data-v="Avery"></span></label></div>
+            <div class="frow"><label>Email address<span class="inp" data-v="jordan.avery@example.com"></span></label><label>Mobile phone<span class="inp" data-v="+1 555 010 0199"></span></label></div>
+            <div class="frow"><label>Most recent degree<span class="inp" data-v="BSc Economics"></span></label><label>Cumulative GPA<span class="inp" data-v="3.72 / 4.0"></span></label></div>
+            <div class="frow"><label class="wide">Program you are applying to<span class="inp" id="dProg" data-v="MSc Economics"></span></label></div>
+          </div>
+          <aside class="panel">
+            <div class="p-head"><svg><use href="#mark"/></svg>Tassel</div>
+            <div class="p-log"><svg><use href="#check"/></svg><span>Filled <b id="dCount">7</b> fields</span></div>
+            <div class="p-label">Needs you</div>
+            <div class="p-need" id="dNeed"><b>When do you want to start?</b><div class="p-chips"><span id="dPick">Fall 2027</span><span>Spring 2028</span></div></div>
+            <div class="p-next" id="dNext">Save and continue &rarr;</div>
+            <div class="p-rule">Tassel never presses Submit.</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="numbers">
+  <div class="wrap">
+    <div class="num reveal"><b>1</b><span>profile to fill in. Tassel reuses it everywhere.</span></div>
+    <div class="num reveal" style="--d:.08s"><b>20</b><span>programs found in a single search.</span></div>
+    <div class="num reveal" style="--d:.16s"><b>3</b><span>essay drafts for every prompt. You pick one.</span></div>
+    <div class="num reveal" style="--d:.24s"><b>0</b><span>applications submitted without you.</span></div>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <div class="kicker reveal">How it works</div>
+    <h2 class="reveal">Twenty applications.<br><em>One profile.</em></h2>
+    <p class="sub reveal">Every application asks for the same name, the same address, the same degree and the same scores. Tassel types them so you don't have to.</p>
+    <div class="steps">
+      <div class="step reveal"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.500-4 4.500-6 8-6s6.500 2 8 6"/></svg></div><h3>Tell it about you, once</h3><p>Fill in your profile, drop in your CV, or just talk to your AI and let it save what you say.</p></div>
+      <div class="step reveal" style="--d:.1s"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.500-3.500"/></svg></div><h3>Build your list</h3><p>Say what you want to study and where. Tassel finds real programs and sorts them into reach, target and safer choices.</p></div>
+      <div class="step reveal" style="--d:.2s"><div class="ico"><svg><use href="#spark"/></svg></div><h3>Start them all</h3><p>Tassel opens every application and fills it page by page. It stops wherever something needs you. The submit button is always yours.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="features" style="padding-top:0">
+  <div class="wrap">
+    <div class="kicker reveal">Built for applying in bulk</div>
+    <h2 class="reveal">Everything a long list <em>needs.</em></h2>
+    <div class="bento">
+      <div class="tile w3 reveal">
+        <h3>Know where you stand</h3>
+        <p>Each program is placed against your grades, scores and experience, with a one-line reason. Planning estimates, not promises.</p>
+        <div class="viz tiers">
+          <div class="tier r"><span>Reach</span><div class="bar"><i style="--w:38%"></i></div><b>4</b></div>
+          <div class="tier t"><span>Target</span><div class="bar"><i style="--w:82%"></i></div><b>9</b></div>
+          <div class="tier s"><span>Safer</span><div class="bar"><i style="--w:54%"></i></div><b>5</b></div>
+        </div>
+      </div>
+      <div class="tile w3 inked reveal" style="--d:.08s">
+        <h3>Start all. Then make a coffee.</h3>
+        <p>Tassel works through your applications in the background and shows one list of what each still needs from you.</p>
+        <div class="viz queue">
+          <div class="q"><i style="--c:#8a6412">N</i><span style="all:unset">Northfield &middot; MSc Economics</span><span class="ok">Ready to review</span><div class="track"><b style="--w:100%"></b></div></div>
+          <div class="q"><i style="--c:#1e6b52">H</i><span style="all:unset">Harrow &middot; MS Applied Economics</span><span>Needs an essay</span><div class="track"><b style="--w:72%;--dl:.5s"></b></div></div>
+          <div class="q"><i style="--c:#5b4b8a">E</i><span style="all:unset">Eastmoor &middot; MSc Policy</span><span>Sign in</span><div class="track"><b style="--w:18%;--dl:.8s"></b></div></div>
+        </div>
+      </div>
+      <div class="tile w2 goldy reveal">
+        <h3>Every deadline in view</h3>
+        <p style="color:#6b5417">Application, funding and letter dates, with a countdown.</p>
+        <div class="viz dates">
+          <div class="date"><b>01</b><div><small>Dec</small>Funding</div><span>17 days</span></div>
+          <div class="date"><b>15</b><div><small>Dec</small>Application</div><span>31 days</span></div>
+        </div>
+      </div>
+      <div class="tile w2 reveal" style="--d:.08s">
+        <h3>Three drafts, your pick</h3>
+        <p>Written from your own profile. Nothing invented.</p>
+        <div class="viz drafts">
+          <div class="draft"><b>Where I am headed</b><i></i><i></i></div>
+          <div class="draft"><b>The question I want to answer</b><i></i><i></i></div>
+          <div class="draft"><b>The thesis that started it</b><i></i><i></i></div>
+        </div>
+      </div>
+      <div class="tile w2 reveal" style="--d:.16s">
+        <h3>Letters under control</h3>
+        <p>Who was asked, for which program, and what is still open.</p>
+        <div class="viz lets">
+          <div class="let"><b>Dr. Raman</b><div class="seg"><span>Not asked</span><span>Asked</span><span class="s">In</span></div></div>
+          <div class="let"><b>Prof. Okafor</b><div class="seg"><span>Not asked</span><span class="a">Asked</span><span>In</span></div></div>
+          <div class="let"><b>Dr. Lindqvist</b><div class="seg"><span>Not asked</span><span class="a">Asked</span><span>In</span></div></div>
+        </div>
+      </div>
+      <div class="tile w4 reveal">
+        <h3>Use the AI you already have</h3>
+        <p>Connect the AI app you already use and it works inside Tassel for you. No API key, nothing extra to buy.</p>
+        <div class="viz chat">
+          <div class="bub me">Use Tassel. Fill in all my applications and stop at each review page.</div>
+          <div class="bub ai"><b>Done with 6 of 8.</b> Two need you to sign in first. I also have three questions I couldn't answer from your profile.</div>
+        </div>
+      </div>
+      <div class="tile w2 reveal" style="--d:.08s">
+        <h3>Two computers, one list</h3>
+        <p>Keep your data in a folder that already syncs, like iCloud Drive or OneDrive, and carry on from your other device.</p>
+        <div class="viz" style="display:flex;gap:10px;align-items:center;font-weight:650;font-size:14px;color:var(--green-ink)">
+          <span style="flex:1;padding:12px;border-radius:12px;background:var(--green-wash);text-align:center">Mac</span>
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8l-4 4 4 4M17 8l4 4-4 4M3 12h18"/></svg>
+          <span style="flex:1;padding:12px;border-radius:12px;background:var(--green-wash);text-align:center">Windows</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="never" class="never">
+  <div class="wrap">
+    <div class="kicker reveal">Your control</div>
+    <h2 class="reveal">It does the typing.<br><em>You make the decisions.</em></h2>
+    <p class="sub reveal">These limits are built into the app. They hold for Tassel's own AI and for any AI app you connect to it.</p>
+    <div class="nevers">
+      <div class="nv reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-3-7z"/><path d="M4 4l16 16" stroke-width="2"/></svg><b>It never submits.</b><span>It stops at the review page. You read it and press the button.</span></div>
+      <div class="nv reveal" style="--d:.08s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><b>It never types passwords.</b><span>Or ID numbers, or card numbers. You sign in and pay yourself.</span></div>
+      <div class="nv reveal" style="--d:.16s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.700.400-1 .900-1 1.700M12 17v.500"/></svg><b>It never invents facts.</b><span>If your profile doesn't have the answer, it asks you.</span></div>
+      <div class="nv reveal" style="--d:.24s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><b>It never keeps your data.</b><span>Your profile lives on your computer, not on a Tassel server.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap center">
+    <div class="kicker reveal">Pricing</div>
+    <h2 class="reveal" data-free-only>Free. <em>Really.</em></h2>
+    <h2 class="reveal" data-paid hidden>Less than one <em>application fee.</em></h2>
+    <p class="sub reveal" data-paid hidden>Pay once for the whole season. No subscription to forget about.</p>
+
+    <div class="plans single" id="plans">
+      <div class="plan reveal">
+        <h3>Tassel</h3>
+        <div class="amt">$0<small data-paid hidden>to start</small></div>
+        <ul>
+          <li data-free-only>Every feature, no limits</li>
+          <li data-paid hidden>Up to 3 applications</li>
+          <li>Form filling, essays, deadlines, letters</li>
+          <li>Works with your own AI app</li>
+          <li>No account, no card</li>
+        </ul>
+        <div class="dl">
+          <a class="btn dark" href="#pricing" data-dl="mac"><svg><use href="#apple"/></svg>Mac</a>
+          <a class="btn plain" href="#pricing" data-dl="win"><svg><use href="#win"/></svg>Windows</a>
+        </div>
+      </div>
+      <div class="plan best reveal" style="--d:.1s" data-paid hidden>
+        <span class="tag">For a full list</span>
+        <h3>Season Pass</h3>
+        <div class="amt">$10<small>once</small></div>
+        <ul>
+          <li>Unlimited applications</li>
+          <li>Start all: fill many at once</li>
+          <li>Everything in the free version</li>
+          <li>A full year of updates</li>
+        </ul>
+        <a class="btn gold" href="#pricing" data-buy>Get the Season Pass</a>
+      </div>
+    </div>
+    <p class="sub reveal" style="font-size:15px;margin-top:26px">macOS 12 or later (Apple silicon and Intel) &middot; Windows 10 and 11. You bring an AI: the AI app you already use, or your own API key.<span id="dlNote" hidden><br>Downloads appear here as soon as the first release is published.</span></p>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="center"><div class="kicker reveal">Questions</div><h2 class="reveal">Before you <em>ask.</em></h2></div>
+    <div class="faq reveal">
+      <details><summary>Does it submit my applications for me?</summary><p>No. Tassel fills in the forms and stops at the review page. You read every application and submit it yourself. It also won't pay fees, create accounts, or tick "I certify" boxes.</p></details>
+      <details><summary>Is this allowed?</summary><p>You are still the one applying. Tassel types into the same form you would, in a browser on your own computer, and you review and submit. Some programs restrict AI-written statements, so treat essay drafts as a starting point and check each program's rules.</p></details>
+      <details><summary>Where does my data go?</summary><p>It stays on your computer. The only thing sent out is what the AI needs to answer a form or draft an essay: your profile and the labels on the page. If you connect your own AI app, that app's privacy terms apply to what it reads.</p></details>
+      <details><summary>Do I need to pay for an AI?</summary><p>You need access to one. If you already use an AI app that supports local connectors, connect it and there is nothing extra to buy. Otherwise you can paste your own API key and pay the provider for what you use.</p></details>
+      <details><summary>Will it work on my university's site?</summary><p>Tassel works on standard web forms, which is what most application portals are built from. Where a site uses an unusual custom widget, Tassel tells you which fields it left so you can fill those by hand. Always read an application through before you submit it.</p></details>
+      <details><summary>My computer warns me when I open the installer. Why?</summary><p>Tassel is new, so Windows and macOS don't recognise it yet. On Windows choose "More info", then "Run anyway". On a Mac, open Tassel once, then go to System Settings, Privacy &amp; Security, and choose "Open Anyway".</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <div class="box reveal">
+      <h2>Type it <em>once.</em></h2>
+      <p>Then let every application fill itself.</p>
+      <div class="cta">
+        <a class="btn gold" href="#pricing" data-dl="mac"><svg><use href="#apple"/></svg>Download for Mac</a>
+        <a class="btn glass" href="#pricing" data-dl="win"><svg><use href="#win"/></svg>Download for Windows</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <svg><use href="#mark"/></svg>
+    <span>Tassel &middot; Apply once. Everywhere.</span>
+    <span class="grow"></span>
+    <span>Not affiliated with any university or application service.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var cfg = window.TASSEL || {};
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  /* ----- Downloads and pricing follow the settings at the top of the page ----- */
+  var files = { mac: 'Tassel-mac-universal.dmg', win: 'Tassel-win-x64.exe' };
+  $$('[data-dl]').forEach(function (a) {
+    if (cfg.REPO) a.href = 'https://github.com/' + cfg.REPO + '/releases/latest/download/' + files[a.getAttribute('data-dl')];
+  });
+  if (!cfg.REPO) $('#dlNote').hidden = false;
+  // Put the visitor's own system first.
+  var isWin = /Win/i.test(navigator.platform || navigator.userAgent);
+  if (isWin) {
+    $$('.cta').forEach(function (row) {
+      var mac = $('[data-dl="mac"]', row), win = $('[data-dl="win"]', row);
+      if (!mac || !win) return;
+      row.insertBefore(win, mac);
+      win.className = 'btn gold'; mac.className = 'btn glass';
+    });
+  }
+  var paid = !!cfg.BUY_URL || /[?&]pricing=1/.test(location.search);
+  if (paid) {
+    $$('[data-paid]').forEach(function (el) { el.hidden = false; });
+    $$('[data-free-only]').forEach(function (el) { el.hidden = true; });
+    $('#plans').classList.remove('single');
+    $$('[data-buy]').forEach(function (a) { if (cfg.BUY_URL) a.href = cfg.BUY_URL; });
+  }
+
+  /* ----- Nav background once you scroll ----- */
+  var nav = $('#nav');
+  var onScroll = function () { nav.classList.toggle('stuck', window.scrollY > 24); };
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  /* ----- Reveal on scroll ----- */
+  var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if ('IntersectionObserver' in window && !calm) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.18 });
+    $$('.reveal').forEach(function (el) { io.observe(el); });
+  } else {
+    $$('.reveal').forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ----- The demo: one profile, three applications filling themselves ----- */
+  var unis = [
+    { name: 'Northfield University', host: 'northfield', letter: 'N', color: '#8a6412', due: 'Due Dec 15 · 31 days', prog: 'MSc Economics' },
+    { name: 'Harrow Institute of Technology', host: 'harrow', letter: 'H', color: '#1e6b52', due: 'Due Jan 10 · 57 days', prog: 'MS Applied Economics' },
+    { name: 'University of Eastmoor', host: 'eastmoor', letter: 'E', color: '#5b4b8a', due: 'Due Jan 31 · 78 days', prog: 'MSc Economics and Policy' }
+  ];
+  var inputs = $$('#demo .inp');
+  var wait = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
+  var show = function (u, i) {
+    $('#dUni').textContent = u.name; $('#dHost').textContent = u.host; $('#dCrest').textContent = u.letter;
+    $('#dCrest').style.setProperty('--c', u.color); $('#dCrest').parentNode.style.setProperty('--c', u.color);
+    $('#dDue').textContent = u.due; $('#dProg').setAttribute('data-v', u.prog);
+    $$('#demo .app-tab[data-tab]').forEach(function (t) { t.classList.toggle('on', +t.getAttribute('data-tab') === i); });
+  };
+  if (calm) {
+    inputs.forEach(function (el) { el.textContent = el.getAttribute('data-v'); el.classList.add('filled'); });
+  } else {
+    (async function loop() {
+      for (var round = 0; ; round++) {
+        var i = round % unis.length;
+        if (i === 0) $$('#demo .app-tab').forEach(function (t) { t.classList.remove('done'); });
+        show(unis[i], i);
+        inputs.forEach(function (el) { el.textContent = ''; el.className = 'inp'; });
+        $('#dCount').textContent = '0'; $('#dNeed').classList.add('wait'); $('#dPick').classList.remove('picked'); $('#dNext').classList.remove('pulse');
+        await wait(700);
+        $('#dFill').classList.add('press'); await wait(520); $('#dFill').classList.remove('press');
+        for (var k = 0; k < inputs.length; k++) {
+          var el = inputs[k], text = el.getAttribute('data-v');
+          el.classList.add('typing');
+          for (var c = 1; c <= text.length; c++) { el.textContent = text.slice(0, c); await wait(k < 4 ? 14 : 20); }
+          el.classList.remove('typing'); el.classList.add('filled');
+          $('#dCount').textContent = String(k + 1);
+          await wait(90);
+        }
+        await wait(350); $('#dNeed').classList.remove('wait');
+        await wait(900); $('#dPick').classList.add('picked');
+        await wait(600); $('#dNext').classList.add('pulse');
+        await wait(900);
+        var tab = $('#demo .app-tab[data-tab="' + i + '"]'); if (tab) tab.classList.add('done');
+        await wait(500);
+      }
+    })();
+  }
+})();
+</script>
+</body>
+</html>

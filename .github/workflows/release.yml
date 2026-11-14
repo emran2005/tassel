@@ -1,0 +1,96 @@
+# Builds the Mac and Windows installers and attaches them to a GitHub Release.
+# Runs whenever a version tag is pushed (for example v0.1.0), or by hand from the Actions tab.
+# The website's download buttons point at the latest release, so a new tag is all a release takes.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            target: --win
+            file: dist/Tassel-win-x64.exe
+          - os: macos-latest
+            target: --mac
+            file: dist/Tassel-mac-universal.dmg
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build installer
+        run: npx electron-builder ${{ matrix.target }} --publish never
+        env:
+          # No paid signing certificates yet. The Mac app is signed "ad hoc" (see package.json),
+          # which Apple silicon needs before it will run an app at all.
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - name: Check the Mac app (signature, chip support, minimum macOS)
+        if: runner.os == 'macOS'
+        run: |
+          APP="dist/mac-universal/Tassel.app"
+          codesign --verify --deep --strict --verbose=2 "$APP"
+          codesign -dv "$APP" 2>&1 | grep -E 'Signature|Identifier|flags' || true
+          lipo -archs "$APP/Contents/MacOS/Tassel"
+          /usr/libexec/PlistBuddy -c "Print :LSMinimumSystemVersion" "$APP/Contents/Info.plist"
+      - name: Open the packaged app and talk to it
+        run: node scripts/packaged-check.js
+      - name: Keep the installer with this run
+        uses: actions/upload-artifact@v4
+        with:
+          name: installer-${{ runner.os }}
+          path: ${{ matrix.file }}
+          if-no-files-found: error
+
+  # The full walkthrough of every screen, on both systems. It does not hold up the release
+  # (it reaches out to the live web, so it can fail for reasons that are not Tassel's fault),
+  # but its screenshots are kept so the Mac version can be looked at without owning a Mac.
+  walkthrough:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run smoke
+      - name: Keep the screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: walkthrough-${{ runner.os }}
+          path: smoke-out
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: installer-*
+          merge-multiple: true
+          path: installers
+      - name: Attach both installers to the release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: installers/*
+          fail_on_unmatched_files: true

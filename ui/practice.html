@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Northfield University - Graduate Application (practice)</title>
+<style>
+  :root { --navy: #1d2d50; --line: #d5d9e2; --bg: #f4f5f8; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Georgia, "Times New Roman", serif; background: var(--bg); color: #1c2333; }
+  header { background: var(--navy); color: #fff; padding: 18px 32px; display: flex; align-items: center; gap: 14px; }
+  header .crest { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #c9a227; display: grid; place-items: center; font-weight: bold; }
+  header h1 { font-size: 20px; margin: 0; font-weight: normal; }
+  header small { display: block; opacity: .75; font-family: Arial, sans-serif; font-size: 12px; }
+  .practice { background: #fff6d9; border-bottom: 1px solid #ecd98f; padding: 9px 32px; font: 13px Arial, sans-serif; color: #6b5600; }
+  main { max-width: 820px; margin: 26px auto 60px; background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 28px 34px 30px; font-family: Arial, Helvetica, sans-serif; font-size: 14px; }
+  .steps { display: flex; gap: 6px; margin-bottom: 22px; font-size: 12px; }
+  .steps span { flex: 1; padding: 7px 10px; background: #eceef3; border-radius: 4px; color: #6a7285; }
+  .steps span.on { background: var(--navy); color: #fff; }
+  h2 { font-family: Georgia, serif; font-weight: normal; font-size: 24px; margin: 0 0 4px; }
+  h3 { font-size: 15px; margin: 26px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+  p.lead { color: #5b6477; margin: 0 0 8px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; margin-bottom: 14px; }
+  .row.three { grid-template-columns: 1fr 1fr 1fr; }
+  .full { grid-column: 1 / -1; }
+  label { display: block; font-weight: bold; font-size: 13px; margin-bottom: 5px; }
+  label .req { color: #b3261e; }
+  input[type=text], input[type=email], input[type=tel], input[type=date], input[type=number], select, textarea {
+    width: 100%; padding: 8px 10px; border: 1px solid #b9bfcc; border-radius: 4px; font: inherit; background: #fff; }
+  textarea { min-height: 150px; resize: vertical; }
+  fieldset { border: 0; padding: 0; margin: 0 0 14px; }
+  legend { font-weight: bold; font-size: 13px; padding: 0; margin-bottom: 6px; }
+  .opt { display: inline-flex; align-items: center; gap: 6px; margin-right: 18px; font-weight: normal; }
+  .help { color: #6a7285; font-size: 12px; margin-top: 4px; }
+  .check { display: flex; gap: 9px; align-items: flex-start; font-weight: normal; line-height: 1.45; margin-bottom: 12px; }
+  .check input { margin-top: 3px; }
+  .bar { display: flex; justify-content: space-between; margin-top: 26px; }
+  button { font: bold 14px Arial, sans-serif; padding: 10px 20px; border-radius: 4px; border: 1px solid var(--navy); background: #fff; color: var(--navy); cursor: pointer; }
+  button.go { background: var(--navy); color: #fff; }
+  .err { color: #b3261e; font-size: 13px; margin-top: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  td { padding: 7px 8px; border-bottom: 1px solid #eceef3; vertical-align: top; }
+  td:first-child { color: #6a7285; width: 38%; }
+  .done { text-align: center; padding: 40px 0 20px; }
+  .done h2 { color: #1e6b52; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<header><div class="crest">N</div><div><h1>Northfield University</h1><small>Graduate Admissions &middot; Application for Master's Study</small></div></header>
+<div class="practice"><b>Practice application.</b> Northfield is not a real university. Nothing you enter here is saved or sent anywhere.</div>
+
+<main>
+  <div class="steps"><span data-s="1">1. Personal details</span><span data-s="2">2. Academic background</span><span data-s="3">3. Statements</span><span data-s="4">4. Review &amp; submit</span></div>
+
+  <form id="f" novalidate>
+  <!-- STEP 1 -->
+  <section data-step="1">
+    <h2>Personal details</h2>
+    <p class="lead">Enter your name exactly as it appears on your passport.</p>
+    <h3>Your name</h3>
+    <div class="row three">
+      <div><label for="fn">First name <span class="req">*</span></label><input type="text" id="fn" name="first_name" autocomplete="given-name" required></div>
+      <div><label for="mn">Middle name</label><input type="text" id="mn" name="middle_name"></div>
+      <div><label for="ln">Last name <span class="req">*</span></label><input type="text" id="ln" name="last_name" autocomplete="family-name" required></div>
+    </div>
+    <div class="row">
+      <div><label for="dob">Date of birth <span class="req">*</span></label><input type="date" id="dob" name="dob" required></div>
+      <fieldset><legend>Gender</legend>
+        <label class="opt"><input type="radio" name="gender" value="F"> Female</label>
+        <label class="opt"><input type="radio" name="gender" value="M"> Male</label>
+        <label class="opt"><input type="radio" name="gender" value="X"> Non-binary</label>
+        <label class="opt"><input type="radio" name="gender" value="U"> Prefer not to say</label>
+      </fieldset>
+    </div>
+    <div class="row">
+      <div><label for="cit">Country of citizenship <span class="req">*</span></label>
+        <select id="cit" name="citizenship" required><option value="">-- Select --</option><option>Australia</option><option>Brazil</option><option>Canada</option><option>China</option><option>France</option><option>Germany</option><option>India</option><option>Mexico</option><option>Nigeria</option><option>Syria</option><option>United Arab Emirates</option><option>United Kingdom</option><option>United States of America</option><option>Other</option></select></div>
+      <div><label for="ssn">Social Security Number (US applicants)</label><input type="text" id="ssn" name="ssn" placeholder="###-##-####"></div>
+    </div>
+    <h3>Contact</h3>
+    <div class="row">
+      <div><label for="em">Email address <span class="req">*</span></label><input type="email" id="em" name="email" required></div>
+      <div><label for="ph">Mobile phone <span class="req">*</span></label><input type="tel" id="ph" name="phone" required></div>
+    </div>
+    <div class="row">
+      <div class="full"><label for="a1">Street address <span class="req">*</span></label><input type="text" id="a1" name="address1" required></div>
+      <div><label for="city">City <span class="req">*</span></label><input type="text" id="city" name="city" required></div>
+      <div><label for="st">State / Province</label><input type="text" id="st" name="state"></div>
+      <div><label for="zip">ZIP / Postal code</label><input type="text" id="zip" name="postal"></div>
+      <div><label for="ctry">Country <span class="req">*</span></label>
+        <select id="ctry" name="country" required><option value="">-- Select --</option><option>Australia</option><option>Canada</option><option>France</option><option>Germany</option><option>India</option><option>United Arab Emirates</option><option>United Kingdom</option><option>United States of America</option><option>Other</option></select></div>
+    </div>
+    <h3>Emergency contact</h3>
+    <div class="row">
+      <div><label for="ecn">Emergency contact name</label><input type="text" id="ecn" name="emergency_name"></div>
+      <div><label for="ecp">Emergency contact phone</label><input type="tel" id="ecp" name="emergency_phone"></div>
+    </div>
+  </section>
+
+  <!-- STEP 2 -->
+  <section data-step="2" hidden>
+    <h2>Academic background</h2>
+    <p class="lead">Tell us about your most recent degree and the program you are applying to.</p>
+    <h3>Program</h3>
+    <div class="row">
+      <div><label for="term">Intended start term <span class="req">*</span></label>
+        <select id="term" name="term" required><option value="">-- Select --</option><option>Fall 2027</option><option>Spring 2028</option><option>Fall 2028</option></select></div>
+      <div><label for="mode">Mode of study <span class="req">*</span></label>
+        <select id="mode" name="mode" required><option value="">-- Select --</option><option>Full-time</option><option>Part-time</option></select></div>
+    </div>
+    <h3>Most recent degree</h3>
+    <div class="row">
+      <div class="full"><label for="inst">Institution name <span class="req">*</span></label><input type="text" id="inst" name="institution" required></div>
+      <div><label for="deg">Degree awarded <span class="req">*</span></label>
+        <select id="deg" name="degree" required><option value="">-- Select --</option><option>Bachelor of Arts (BA)</option><option>Bachelor of Science (BSc)</option><option>Bachelor of Engineering (BEng)</option><option>Bachelor of Business Administration (BBA)</option><option>Other bachelor's degree</option></select></div>
+      <div><label for="maj">Major / field of study <span class="req">*</span></label><input type="text" id="maj" name="major" required></div>
+      <div><label for="gpa">Cumulative GPA</label><input type="text" id="gpa" name="gpa" placeholder="e.g. 3.60"></div>
+      <div><label for="grad">Graduation date</label><input type="text" id="grad" name="grad_date" placeholder="MM/YYYY"></div>
+    </div>
+    <h3>Test scores</h3>
+    <div class="row three">
+      <div><label for="grev">GRE Verbal</label><input type="text" id="grev" name="gre_v"></div>
+      <div><label for="greq">GRE Quantitative</label><input type="text" id="greq" name="gre_q"></div>
+      <div><label for="grea">GRE Analytical Writing</label><input type="text" id="grea" name="gre_aw"></div>
+    </div>
+    <h3>Documents</h3>
+    <div class="row">
+      <div><label for="cv">Upload your CV / r&eacute;sum&eacute; <span class="req">*</span></label><input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx"></div>
+      <div><label for="tr">Upload your transcript</label><input type="file" id="tr" name="transcript" accept=".pdf"></div>
+    </div>
+    <h3>A few questions</h3>
+    <div class="row">
+      <div><label for="hear">How did you hear about Northfield? <span class="req">*</span></label>
+        <select id="hear" name="hear" required><option value="">-- Select --</option><option>Web search</option><option>A professor or advisor</option><option>A current student or alum</option><option>Graduate fair</option><option>Social media</option><option>Other</option></select></div>
+      <fieldset><legend>Have you ever been subject to academic disciplinary action? <span class="req">*</span></legend>
+        <label class="opt"><input type="radio" name="discipline" value="yes"> Yes</label>
+        <label class="opt"><input type="radio" name="discipline" value="no"> No</label>
+      </fieldset>
+    </div>
+  </section>
+
+  <!-- STEP 3 -->
+  <section data-step="3" hidden>
+    <h2>Statements</h2>
+    <p class="lead">Your written statements help the committee understand your goals.</p>
+    <div class="row"><div class="full">
+      <label for="sop">Statement of purpose: describe your reasons for pursuing graduate study at Northfield and how the program fits your goals. (Maximum 500 words) <span class="req">*</span></label>
+      <textarea id="sop" name="sop" required aria-describedby="sopHelp"></textarea>
+      <div class="help" id="sopHelp">Maximum 500 words.</div>
+    </div></div>
+    <div class="row"><div class="full">
+      <label for="res">Briefly describe a research question you would like to explore. (Maximum 150 words)</label>
+      <textarea id="res" name="research" style="min-height:90px"></textarea>
+    </div></div>
+    <h3>Recommender</h3>
+    <div class="row">
+      <div><label for="rn">Recommender name</label><input type="text" id="rn" name="rec_name"></div>
+      <div><label for="re">Recommender email</label><input type="email" id="re" name="rec_email"></div>
+    </div>
+    <h3>Declaration</h3>
+    <label class="check"><input type="checkbox" id="cert" name="certify" required> <span>I certify that the information in this application is complete and accurate to the best of my knowledge. <span class="req">*</span></span></label>
+    <label class="check"><input type="checkbox" id="news" name="newsletter"> <span>Send me occasional news about graduate study at Northfield.</span></label>
+  </section>
+
+  <!-- STEP 4 -->
+  <section data-step="4" hidden>
+    <h2>Review &amp; submit</h2>
+    <p class="lead">Check your answers. Use Back to change anything.</p>
+    <table id="review"></table>
+  </section>
+
+  <section data-step="5" hidden>
+    <div class="done"><h2>Practice complete</h2><p class="lead">That is what submitting feels like. Nothing was sent anywhere.</p></div>
+  </section>
+
+  <div class="err" id="err" hidden></div>
+  <div class="bar" id="bar">
+    <button type="button" id="back">Back</button>
+    <button type="button" class="go" id="next">Save and continue</button>
+    <button type="button" class="go" id="submit" hidden>Submit application</button>
+  </div>
+  </form>
+</main>
+
+<script>
+  var step = 1;
+  var form = document.getElementById('f');
+  function show() {
+    document.querySelectorAll('section[data-step]').forEach(function (s) { s.hidden = Number(s.dataset.step) !== step; });
+    document.querySelectorAll('.steps span').forEach(function (s) { s.classList.toggle('on', Number(s.dataset.s) === step); });
+    document.getElementById('back').style.visibility = step === 1 || step === 5 ? 'hidden' : 'visible';
+    document.getElementById('next').hidden = step >= 4;
+    document.getElementById('submit').hidden = step !== 4;
+    document.getElementById('bar').hidden = step === 5;
+    document.getElementById('err').hidden = true;
+    if (step === 4) review();
+    window.scrollTo(0, 0);
+  }
+  function missing() {
+    var sec = document.querySelector('section[data-step="' + step + '"]');
+    var bad = [];
+    sec.querySelectorAll('[required]').forEach(function (el) {
+      var ok = el.type === 'checkbox' ? el.checked : el.value.trim() !== '';
+      if (!ok) bad.push(el);
+    });
+    var radios = {};
+    sec.querySelectorAll('input[type=radio]').forEach(function (r) { if (r.name === 'discipline') radios[r.name] = radios[r.name] || r.checked; });
+    if (step === 2 && !radios.discipline) bad.push(sec.querySelector('input[name=discipline]'));
+    if (step === 2 && !document.getElementById('cv').files.length) bad.push(document.getElementById('cv'));
+    return bad;
+  }
+  function review() {
+    var rows = [];
+    new FormData(form).forEach(function (v, k) {
+      if (v instanceof File) v = v.name || '(none)';
+      v = String(v);
+      if (v.length > 160) v = v.slice(0, 160) + '...';
+      rows.push('<tr><td>' + k.replace(/_/g, ' ') + '</td><td>' + v.replace(/</g, '&lt;') + '</td></tr>');
+    });
+    document.getElementById('review').innerHTML = rows.join('');
+  }
+  document.getElementById('next').onclick = function () {
+    var bad = missing();
+    if (bad.length) {
+      var e = document.getElementById('err');
+      e.textContent = 'Please complete the ' + bad.length + ' required field' + (bad.length === 1 ? '' : 's') + ' marked * before continuing.';
+      e.hidden = false;
+      bad[0].focus();
+      return;
+    }
+    step++; show();
+  };
+  document.getElementById('back').onclick = function () { step--; show(); };
+  document.getElementById('submit').onclick = function () { step = 5; show(); };
+  show();
+</script>
+</body>
+</html>

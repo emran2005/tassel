@@ -1,0 +1,63 @@
+{
+  "name": "tassel",
+  "productName": "Tassel",
+  "version": "0.1.0",
+  "description": "Apply once. Everywhere. Tassel fills in your master's and PhD applications for you.",
+  "main": "main.js",
+  "author": "Tassel",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "icon": "electron scripts/make-icon.js",
+    "smoke": "node scripts/smoke.js",
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac",
+    "site": "node scripts/serve-site.js"
+  },
+  "build": {
+    "appId": "app.tassel.desktop",
+    "productName": "Tassel",
+    "icon": "build/icon.png",
+    "files": [
+      "main.js",
+      "src/**/*",
+      "ui/**/*",
+      "mcp/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "mcp/**"
+    ],
+    "win": {
+      "target": "nsis",
+      "artifactName": "Tassel-win-x64.${ext}"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "packElevateHelper": false
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        }
+      ],
+      "artifactName": "Tassel-mac-universal.${ext}",
+      "category": "public.app-category.productivity",
+      "identity": "-",
+      "hardenedRuntime": false
+    }
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0"
+  },
+  "devDependencies": {
+    "electron": "^45.3.2",
+    "electron-builder": "^26.18.0"
+  }
+}

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="none">
+  <!-- Tassel app icon: ink tile, paper cap, gold tassel. -->
+  <rect x="64" y="64" width="896" height="896" rx="208" fill="#17201C"/>
+  <rect x="64" y="64" width="896" height="896" rx="208" fill="url(#g)"/>
+  <g transform="translate(192 200) scale(10)">
+    <path d="M19 31.5V42c0 0 5 5.5 13 5.5S45 42 45 42V31.5" stroke="#F6F3EC" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M32 11 58 24 32 37 6 24Z" fill="#F6F3EC" stroke="#F6F3EC" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M32 24l19 5.5V41" stroke="#C8962B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M51 41v9" stroke="#C8962B" stroke-width="7" stroke-linecap="round"/>
+  </g>
+  <defs>
+    <radialGradient id="g" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(300 220) scale(900)">
+      <stop stop-color="#2E6B55" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#17201C" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

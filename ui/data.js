@@ -1,0 +1,70 @@
+/* Suggestion lists for the "what" and "where" boxes. Plain data, no logic. */
+window.TASSEL_DATA = {
+  regions: ['Anywhere', 'Europe', 'North America', 'Asia', 'Middle East', 'Latin America', 'Africa', 'Oceania', 'Scandinavia', 'European Union'],
+
+  countries: [
+    'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan',
+    'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia',
+    'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada',
+    'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Costa Rica', 'Croatia', 'Cuba',
+    'Cyprus', 'Czech Republic', 'Democratic Republic of the Congo', 'Denmark', 'Djibouti', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Estonia',
+    'Eswatini', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana',
+    'Greece', 'Guatemala', 'Guinea', 'Guyana', 'Haiti', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India',
+    'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Ivory Coast', 'Jamaica', 'Japan', 'Jordan',
+    'Kazakhstan', 'Kenya', 'Kosovo', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia',
+    'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macau', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali',
+    'Malta', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique',
+    'Myanmar', 'Namibia', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Macedonia', 'Norway',
+    'Oman', 'Pakistan', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal',
+    'Qatar', 'Republic of the Congo', 'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 'Senegal', 'Serbia', 'Sierra Leone', 'Singapore',
+    'Slovakia', 'Slovenia', 'Somalia', 'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname',
+    'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Trinidad and Tobago', 'Tunisia',
+    'Turkey', 'Turkmenistan', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Venezuela',
+    'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe',
+  ],
+
+  // Places applicants often name directly.
+  cities: [
+    'London', 'Oxford', 'Cambridge', 'Edinburgh', 'Manchester', 'Boston', 'New York', 'Chicago', 'San Francisco Bay Area', 'Los Angeles',
+    'Washington, D.C.', 'Toronto', 'Montreal', 'Vancouver', 'Paris', 'Berlin', 'Munich', 'Amsterdam', 'Rotterdam', 'Zurich',
+    'Geneva', 'Barcelona', 'Madrid', 'Milan', 'Vienna', 'Copenhagen', 'Stockholm', 'Dublin', 'Sydney', 'Melbourne',
+    'Singapore', 'Hong Kong', 'Tokyo', 'Seoul', 'Dubai', 'Abu Dhabi', 'Doha', 'Istanbul', 'California', 'Texas', 'Ontario',
+  ],
+
+  fields: [
+    'Accounting', 'Aerospace Engineering', 'Applied Economics', 'Applied Mathematics', 'Architecture', 'Artificial Intelligence', 'Behavioral Economics', 'Bioinformatics', 'Biomedical Engineering', 'Biotechnology',
+    'Business (MBA)', 'Business Analytics', 'Chemical Engineering', 'Chemistry', 'Civil Engineering', 'Climate Science', 'Clinical Psychology', 'Cognitive Science', 'Communications', 'Computer Engineering',
+    'Computer Science', 'Creative Writing', 'Criminology', 'Cybersecurity', 'Data Science', 'Design', 'Development Economics', 'Development Studies', 'Econometrics', 'Economics',
+    'Education', 'Electrical Engineering', 'Energy Systems', 'Engineering', 'Engineering Management', 'English Literature', 'Entrepreneurship', 'Environmental Engineering', 'Environmental Policy', 'Environmental Science',
+    'Epidemiology', 'Film', 'Finance', 'Financial Economics', 'Financial Engineering', 'Fine Arts (MFA)', 'Gender Studies', 'Geography', 'Global Health', 'Health Administration',
+    'History', 'Human Resources', 'Human-Computer Interaction', 'Industrial Engineering', 'Information Systems', 'International Business', 'International Development', 'International Relations', 'Journalism', 'Law (LLM)',
+    'Linguistics', 'Machine Learning', 'Management', 'Marketing', 'Materials Science', 'Mathematics', 'Mechanical Engineering', 'Media Studies', 'Molecular Biology', 'Music',
+    'Neuroscience', 'Nursing', 'Nutrition', 'Operations Research', 'Philosophy', 'Physics', 'Political Economy', 'Political Science', 'Psychology', 'Public Administration (MPA)',
+    'Public Health (MPH)', 'Public Policy', 'Quantitative Finance', 'Real Estate', 'Robotics', 'Social Work', 'Sociology', 'Software Engineering', 'Statistics', 'Supply Chain Management',
+    'Sustainability', 'Translation', 'Urban Planning', 'UX Design',
+  ],
+
+  // "If you like this, you may also be considering..." Keys are lower case.
+  related: {
+    economics: ['Applied Economics', 'Econometrics', 'Financial Economics', 'Public Policy', 'Development Economics', 'Finance', 'Political Economy', 'Data Science'],
+    finance: ['Financial Economics', 'Quantitative Finance', 'Financial Engineering', 'Economics', 'Accounting', 'Business (MBA)', 'Business Analytics'],
+    'public policy': ['Public Administration (MPA)', 'Economics', 'International Development', 'Political Science', 'Environmental Policy', 'Urban Planning'],
+    'computer science': ['Artificial Intelligence', 'Machine Learning', 'Data Science', 'Software Engineering', 'Cybersecurity', 'Human-Computer Interaction', 'Robotics'],
+    'data science': ['Statistics', 'Machine Learning', 'Business Analytics', 'Artificial Intelligence', 'Computer Science', 'Applied Mathematics'],
+    'business (mba)': ['Management', 'Finance', 'Marketing', 'Entrepreneurship', 'Business Analytics', 'International Business'],
+    psychology: ['Clinical Psychology', 'Cognitive Science', 'Neuroscience', 'Behavioral Economics', 'Social Work', 'Education'],
+    engineering: ['Mechanical Engineering', 'Electrical Engineering', 'Civil Engineering', 'Chemical Engineering', 'Engineering Management', 'Robotics'],
+    'international relations': ['Political Science', 'International Development', 'Public Policy', 'Political Economy', 'Law (LLM)'],
+    'political science': ['International Relations', 'Public Policy', 'Political Economy', 'Sociology', 'Public Administration (MPA)'],
+    statistics: ['Data Science', 'Applied Mathematics', 'Econometrics', 'Machine Learning', 'Operations Research'],
+    'public health (mph)': ['Epidemiology', 'Global Health', 'Health Administration', 'Nutrition', 'Nursing'],
+    marketing: ['Business Analytics', 'Management', 'Communications', 'Business (MBA)', 'UX Design'],
+    'artificial intelligence': ['Machine Learning', 'Computer Science', 'Robotics', 'Data Science', 'Cognitive Science'],
+    'environmental science': ['Climate Science', 'Sustainability', 'Environmental Policy', 'Environmental Engineering', 'Energy Systems'],
+    'mechanical engineering': ['Aerospace Engineering', 'Robotics', 'Materials Science', 'Energy Systems', 'Industrial Engineering'],
+    'electrical engineering': ['Computer Engineering', 'Robotics', 'Energy Systems', 'Machine Learning'],
+    management: ['Business (MBA)', 'Human Resources', 'Entrepreneurship', 'Supply Chain Management', 'International Business'],
+    'development economics': ['International Development', 'Economics', 'Public Policy', 'Development Studies', 'Global Health'],
+    sociology: ['Social Work', 'Gender Studies', 'Criminology', 'Political Science', 'Urban Planning'],
+  },
+};
